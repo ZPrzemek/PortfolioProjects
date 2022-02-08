@@ -72,5 +72,39 @@ WHERE continent is not null
 ORDER BY 1,2
 
 
+--Queries to use in Tableau
 
+-- 1.
+
+SELECT  SUM(new_cases) as total_cases , SUM(new_deaths) as total_deaths, SUM(new_deaths)/SUM(new_cases)*100 as DeathPercentage 
+FROM PortfolioProject..CovidDeaths
+--where location like 'poland'
+WHERE continent is not null 
+--Group by date
+ORDER BY 1,2
+
+
+-- 2.
+
+SELECT location, SUM(new_deaths) as TotalDeathCount
+FROM PortfolioProject..CovidDeaths
+Where continent is null
+and location not in ('World', 'European Union', 'International', 'High income', 'Lower middle income', 'Upper middle income', 'Low income')
+Group by location
+Order by TotalDeathCount desc
+
+
+-- 3.
+
+Select location, population,  max(total_cases) as HighestInfectionCount, max(total_cases/population)*100 as PercentPopulationInfected
+from PortfolioProject..CovidDeaths
+Group by location, population
+order by PercentPopulationInfected desc
+
+-- 4.
+
+SELECT location, population, date, max(total_cases) as HighestInfectionCount, max(total_cases/population)*100 as PercentPopulationInfected
+from PortfolioProject..CovidDeaths
+Group by location, population, date
+order by PercentPopulationInfected desc
 
